@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import { useLocation } from "wouter";
 import {
   ArrowRight,
   CalendarRange,
@@ -135,6 +136,7 @@ function placeholderFeature(feature: string) {
 }
 
 export default function Home() {
+  const [, setLocation] = useLocation();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="analog-grid pointer-events-none fixed inset-0 opacity-70" />
@@ -158,17 +160,17 @@ export default function Home() {
 
           <nav className="hidden items-center gap-2 md:flex">
             {[
-              "Dashboard",
-              "Sessions",
-              "Cadence",
-              "Recovery",
+              { label: "Dashboard", action: () => setLocation("/dashboard") },
+              { label: "Sessions", action: () => setLocation("/sessions") },
+              { label: "Focus", action: () => setLocation("/focus") },
+              { label: "Recovery", action: () => setLocation("/recovery") },
             ].map((item) => (
               <button
-                key={item}
-                onClick={() => placeholderFeature(item)}
+                key={item.label}
+                onClick={item.action}
                 className="rounded-full border border-black/15 bg-[#f7f1e3] px-4 py-2 font-sans text-sm font-semibold text-[#222222] transition hover:-translate-y-0.5 hover:bg-white"
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </nav>
@@ -202,10 +204,10 @@ export default function Home() {
 
                   <div className="flex flex-wrap gap-3">
                     <Button
-                      onClick={() => placeholderFeature("Start today’s cadence")}
+                      onClick={() => setLocation("/sessions")}
                       className="rounded-full border-2 border-[#111111] bg-[#cb5a2d] px-5 text-[#fff8ef] shadow-[4px_4px_0_#111111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
                     >
-                      Start today’s cadence
+                      Start today's cadence
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                     <Button
